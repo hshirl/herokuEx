@@ -17,23 +17,23 @@ y = df['Survived']
 
 PREDICTOR = RandomForestClassifier(n_estimators=100).fit(X, y)
 
-# #------ CREATING AN API, METHOD 1 --------#
-#
-# app = flask.Flask(__name__)
-#
-# @app.route('/predict', methods=["GET"])
-# def predict():
-#     pclass = flask.request.args['pclass']
-#     sex = flask.request.args['sex']
-#     age = flask.request.args['age']
-#     fare = flask.request.args['fare']
-#     sibsp = flask.request.args['sibsp']
-#
-#     item = [pclass, sex, age, fare, sibsp]
-#     score = PREDICTOR.predict_proba(item)
-#     results = {'survival chances': score[0,1], 'death chances': score[0,0]}
-#     return flask.jsonify(results)
-#
+#------ CREATING AN API, METHOD 1 --------#
+
+app = flask.Flask(__name__)
+
+@app.route('/predict', methods=["GET"])
+def predict():
+    pclass = flask.request.args['pclass']
+    sex = flask.request.args['sex']
+    age = flask.request.args['age']
+    fare = flask.request.args['fare']
+    sibsp = flask.request.args['sibsp']
+
+    item = [pclass, sex, age, fare, sibsp]
+    score = PREDICTOR.predict_proba(item)
+    results = {'survival chances': score[0,1], 'death chances': score[0,0]}
+    return flask.jsonify(results)
+
 
 #---------- CREATING AN API, METHOD 2 ----------------#
 # Initialize the app
@@ -65,9 +65,13 @@ def result():
 
 
 if __name__ == '__main__':
-    '''Connects to the server'''
+    app.run(debug=True)
+    
 
-    HOST = '127.0.0.1'
-    PORT = 4000          #make sure this is an integer
-
-    app.run(HOST, PORT)
+# if __name__ == '__main__':
+#     '''Connects to the server'''
+#
+#     HOST = '127.0.0.1'
+#     PORT = 4000          #make sure this is an integer
+#
+#     app.run(HOST, PORT)
