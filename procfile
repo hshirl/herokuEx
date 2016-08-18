@@ -1,1 +1,1 @@
-web: gunicorn controller:app --log-file=-
+web: gunicorn titanic_app:app --log-file=-
